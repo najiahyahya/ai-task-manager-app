@@ -1,39 +1,89 @@
 # AI Task Manager Test Log
 
-## 1. Backend API Tests
+Perfect! Let’s stress-test your To-Do + Chat app with **varied inputs** covering all main features: adding multiple tasks, viewing, completing, deleting, updating, and conversational messages. I’ll also include tricky edge cases.
 
-| Test Case | Request | Expected | Result |
-| --------- | ------- | -------- | ------ |
-| Create Task | POST `/api/tasks` `{ "description": "Buy milk" }` | 201 Created, Task object with id, description, completed=false | ✅ Passed |
-| View Tasks | GET `/api/tasks` | 200 OK, List includes created task | ✅ Passed |
-| Update Task | PUT `/api/tasks/1` `{ "description": "Buy almond milk" }` | 200 OK, Task updated | ✅ Passed |
-| Complete Task | POST `/api/tasks/1/complete` | 200 OK, completed=true | ✅ Passed |
-| Delete Task | DELETE `/api/tasks/1` | 200 OK, status="deleted" | ✅ Passed |
-| AI Interpret Single Task | POST `/api/ai/interpret` `{ "message": "Add eggs" }` | JSON function_call: addTask, reply mentions task added | ✅ Passed |
-| AI Interpret Multiple Tasks | POST `/api/ai/interpret` `{ "message": "Add bread and butter" }` | JSON function_call array: 2 addTasks, reply mentions both | ✅ Passed |
-| AI Interpret Ordinal | POST `/api/ai/interpret` `{ "message": "Complete 2nd task" }` | JSON function_call: completeTask, correct task_id | ✅ Passed |
+---
 
-## 2. Frontend Tests
+## **1️⃣ Add Tasks (single & multiple)**
 
-- Task form submission adds new task ✅
-- Inline editing works (Enter saves, empty deletes) ✅
-- Complete toggle updates backend & AI reply ✅
-- Delete button removes task ✅
-- Sort dropdown changes order ✅
-- Search filters tasks ✅
-- AI chat replies displayed in chat panel ✅
-- Responsive layout on mobile ✅
+| Test Text                                      | Expected Behavior                                                                                            |
+| ---------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `buy milk`                                     | Adds **one task**, AI reply: `"Added 'buy milk' to your list."` + task appears in both chat bubble and list. |
+| `put buy eggs and feed cat`                    | Adds **two tasks**: `"buy eggs"` & `"feed cat"`; AI reply mentions both; both show ✅/◯ in chat + task list.  |
+| `tambah cucian, basuh pinggan, and mop lantai` | Adds **three tasks** (Malay synonyms + separators).                                                          |
+| `加入水和水果`                                       | Adds **two tasks** (Chinese).                                                                                |
+| `add walk dog; play guitar`                    | Splits `;` and adds two tasks.                                                                               |
 
-## 3. Integration Tests
+---
 
-- Adding via AI message updates task list ✅
-- Deleting via AI message updates task list ✅
-- Completing via AI message updates task list ✅
-- Error handling: invalid task ID gracefully handled ✅
-- Frontend-backend communication consistent ✅
+## **2️⃣ View Tasks**
 
-## Notes
+| Test Text           | Expected Behavior                                            |
+| ------------------- | ------------------------------------------------------------ |
+| `show me my tasks`  | AI reply `"Here are your tasks:"` + inline task list bubble. |
+| `lihat semua tugas` | Malay synonym of `view`; same behavior.                      |
 
-- AI handles multi-language synonyms and ordinal numbers.  
-- All CRUD operations validated through both UI and AI instructions.  
-- Robust fallback implemented for AI endpoint errors.  
+---
+
+## **3️⃣ Complete Tasks**
+
+| Test Text                         | Expected Behavior                                                  |
+| --------------------------------- | ------------------------------------------------------------------ |
+| `mark 1 as done`                  | Completes **task #1**, updates UI ✅, AI reply confirms.            |
+| `tandai tugas ke-2 sudah selesai` | Malay ordinal + complete; task 2 updated.                          |
+| `完成第3个任务`                         | Chinese ordinal + complete; task 3 updated.                        |
+| `done 99`                         | Nonexistent task; AI reply should warn, backend ignores, no crash. |
+
+---
+
+## **4️⃣ Delete Tasks**
+
+| Test Text          | Expected Behavior                                   |
+| ------------------ | --------------------------------------------------- |
+| `delete 1`         | Deletes **task #1**, UI updates, AI reply confirms. |
+| `hapus tugas ke-2` | Malay delete synonym, correct task removed.         |
+| `remove 99`        | Nonexistent task; AI should warn.                   |
+
+---
+
+## **5️⃣ Update Tasks**
+
+| Test Text                          | Expected Behavior                                          |
+| ---------------------------------- | ---------------------------------------------------------- |
+| `update 1 to buy almond milk`      | Changes task 1 description; UI updates, AI reply confirms. |
+| `ubah tugas ke-2 menjadi feed dog` | Malay synonym; updates correctly.                          |
+| `更改第3个任务为walk cat`                 | Chinese synonym; updates correctly.                        |
+| `edit 99 to do nothing`            | Nonexistent task; AI warns, no crash.                      |
+
+---
+
+## **6️⃣ Multiple Actions in One Sentence**
+
+| Test Text                                  | Expected Behavior                                                    |
+| ------------------------------------------ | -------------------------------------------------------------------- |
+| `add water plants and then mark 1 as done` | **Two actions**: add task & complete task 1; AI reply mentions both. |
+| `tambah cucian, basuh pinggan; delete 2`   | **Add two tasks, delete task 2**; tasks update properly.             |
+
+---
+
+## **7️⃣ Conversational / Non-Task**
+
+| Test Text             | Expected Behavior                                 |
+| --------------------- | ------------------------------------------------- |
+| `hello, how are you?` | AI returns friendly reply only; no tasks updated. |
+| `tell me a joke`      | AI returns joke; no task update.                  |
+
+---
+
+## **8️⃣ Edge Cases / Fuzzy Inputs**
+
+| Test Text                        | Expected Behavior                                                    |
+| -------------------------------- | -------------------------------------------------------------------- |
+| `put buy milk and feed cat then` | Should **ignore trailing `then`** and split correctly.               |
+| `add`                            | AI should reply: `"I need a task description."` (optional handling). |
+| `delete zero`                    | AI should handle invalid ordinal gracefully.                         |
+| `update 1`                       | Missing description; AI should warn.                                 |
+| `add walk dog, , play piano`     | Ignore empty task between commas.                                    |
+
+---
+

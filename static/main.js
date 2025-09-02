@@ -228,7 +228,7 @@ function renderTasks() {
     const deleteBtn = document.createElement("button");
     deleteBtn.className = "task-delete";
     deleteBtn.title = "Delete task";
-    deleteBtn.textContent = "❌";
+    deleteBtn.textContent = "🗑️";
     deleteBtn.addEventListener("click", async (e) => {
       e.stopPropagation();
       try {
