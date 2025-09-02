@@ -1,0 +1,127 @@
+/* static/styles.css */
+/* Design tokens */
+:root{
+  --bg: #fff8fb;
+  --card: #ffffff;
+  --muted: #7a4860;
+  --text: #2b0a1a;
+  --accent: #ff2e88;
+  --accent-light: #ff8ecb;
+  --accent-strong: #d81b60;
+  --border: #ffd6e8;
+  --radius: 12px;
+  --shadow: 0 6px 18px rgba(20,10,20,0.08);
+  --glass: rgba(255,255,255,0.6);
+  --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg: #0b0b10;
+    --card: #121116;
+    --muted: #9a8aa0;
+    --text: #f6f4f7;
+    --accent: #ff6fa2;
+    --accent-strong: #ff4da6;
+    --border: #1f1a20;
+    --glass: rgba(255,255,255,0.02);
+  }
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:var(--font);
+  background: linear-gradient(180deg, #fff6fb 0%, #fff0f6 100%);
+  color:var(--text);
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+}
+
+/* header */
+header{
+  background: linear-gradient(90deg,var(--accent),var(--accent-strong));
+  color:white;
+  padding:1.2rem 1.5rem;
+  box-shadow:var(--shadow);
+}
+header .title{font-weight:600; font-size:1.15rem; text-align:center}
+
+/* layout */
+main{
+  width:100%;
+  max-width:1100px;
+  margin:1.5rem auto;
+  padding:0 1rem;
+  display:grid;
+  gap:1.25rem;
+  grid-template-columns: 1fr;
+}
+@media(min-width:900px){
+  main{grid-template-columns: 1fr 420px;}
+}
+
+/* panels */
+.panel{
+  background:var(--card);
+  border-radius:var(--radius);
+  border:1px solid var(--border);
+  padding:1rem;
+  box-shadow:var(--shadow);
+  display:flex;
+  flex-direction:column;
+  gap:0.75rem;
+}
+.section-header{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.section-header h2{margin:0;color:var(--accent-strong);font-size:1.05rem}
+
+/* sort container */
+.sort-container{display:flex;align-items:center;gap:8px}
+.sort-container select{padding:6px;border-radius:8px;border:1px solid var(--border)}
+
+/* task list */
+#task-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0.6rem}
+#task-list li{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px;border-radius:10px;background:linear-gradient(180deg,var(--glass),transparent);
+  border:1px solid var(--border);
+}
+.task-left{display:flex;align-items:center;gap:10px;min-width:72px}
+.task-circle{border:none;background:none;font-size:1.1rem;cursor:pointer;padding:6px;border-radius:999px}
+.task-middle{flex:1;display:flex;align-items:center}
+.task-desc{flex:1;font-weight:500;outline:none;min-width:0}
+.task-desc.completed{text-decoration:line-through;color:var(--muted);opacity:0.85}
+.task-right{display:flex;align-items:center;gap:8px;min-width:150px;justify-content:flex-end}
+.task-date{font-size:0.75rem;color:var(--muted);margin-right:8px}
+.task-delete{border:none;background:none;font-size:1.1rem;cursor:pointer;color:var(--accent)}
+
+/* empty */
+#task-list .empty{padding:12px;text-align:center;color:var(--muted)}
+
+/* forms */
+.task-form, .chat-form{display:flex;gap:8px;margin-top:6px}
+.task-form input, .chat-form input{
+  flex:1;padding:10px;border-radius:10px;border:1px solid var(--border);background:transparent;color:var(--text)
+}
+.task-form button, .chat-form button{
+  border:none;padding:8px 12px;border-radius:10px;background:var(--accent);color:white;cursor:pointer;font-weight:600
+}
+
+/* chat area */
+.messages{min-height:240px;max-height:520px;overflow:auto;padding:8px;display:flex;flex-direction:column;gap:8px}
+.msg{max-width:82%;padding:10px;border-radius:12px;line-height:1.3}
+.msg.user{align-self:flex-end;background:linear-gradient(135deg,var(--accent-light),var(--accent));color:white}
+.msg.ai{align-self:flex-start;background:var(--card);border:1px solid var(--border);color:var(--text)}
+.msg.task-update{box-shadow:0 2px 8px rgba(0,0,0,0.06);border-left:4px solid var(--accent-strong)}
+
+/* responsive tweak */
+@media (max-width:768px){
+  .task-right{min-width:90px}
+  .task-left{min-width:60px}
+  .messages{max-height:300px}
+}
+
+/* focus states */
+.task-desc:focus, .task-form input:focus, .chat-form input:focus{box-shadow:0 4px 14px rgba(233,46,136,0.08);border-color:var(--accent)}

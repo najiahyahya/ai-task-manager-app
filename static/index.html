@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AI Task Manager</title>
+    <meta name="color-scheme" content="light dark">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header>
+      <div class="header-inner">
+        <div class="title">AI-Powered Task Manager</div>
+      </div>
+    </header>
+
+    <main>
+      <!-- Tasks column -->
+      <section class="panel" id="tasks-panel">
+        <div class="section-header">
+          <h2>My Tasks</h2>
+          <div class="sort-container">
+            <label for="sortDropdown">Sort:</label>
+            <select id="sortDropdown">
+              <option value="newest">Newest</option>
+              <option value="oldest">Oldest</option>
+            </select>
+          </div>
+        </div>
+
+        <ul id="task-list" aria-live="polite"></ul>
+
+        <form id="task-form" class="task-form">
+          <input type="text" id="task-input" placeholder="Add new task..." autocomplete="off" />
+          <button type="submit">➕</button>
+        </form>
+      </section>
+
+      <!-- AI chat column -->
+      <section class="panel" id="chat-panel">
+        <h2>AI Assistant</h2>
+        <div class="messages" id="chat-box" aria-live="polite"></div>
+
+        <form id="chat-form" class="chat-form">
+          <input id="chat-input" type="text" placeholder="Ask the AI for help..." autocomplete="off" />
+          <button type="submit">Send</button>
+        </form>
+      </section>
+    </main>
+
+    <script src="main.js"></script>
+  </body>
+</html>
