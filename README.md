@@ -33,6 +33,19 @@ This project combines traditional task management with natural language interact
 
 ---
 
+## 📸 Screenshots
+
+### Test #1
+![Test #1](screenshots/Screenshot-140956.png)
+
+### Test #2
+![Test #2](screenshots/Screenshot-141018.png)
+
+### Test #3
+![Test #3](screenshots/Screenshot-141034.png)
+
+---
+
 ## 🔌 API Endpoints
 
 | Endpoint             | Method | URL                             | Request Body                                             | Response                                                                                                                |
